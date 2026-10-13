@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>النور | التطبيق الإسلامي الشامل</title>
+    
+    <link rel="icon" type="image/jpeg" href="https://files.catbox.moe/v5oblu.jpg">
+    <meta name="theme-color" content="#d97706">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Cairo', sans-serif; background: #090d16; color: #f8fafc; }
+        .quran-font { font-family: 'Amiri', serif; }
+        .glass-panel { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(217, 119, 6, 0.2); }
+        .gold-btn { background: linear-gradient(135deg, #b45309, #d97706, #fbbf24); transition: 0.3s; color: #090d16; }
+        .gold-btn:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between max-w-md mx-auto p-4">
+
+    <!-- Header -->
+    <header class="glass-panel p-4 rounded-2xl flex items-center justify-between mb-4 shadow-xl">
+        <div class="flex items-center gap-3">
+            <img src="https://files.catbox.moe/v5oblu.jpg" class="w-12 h-12 rounded-xl object-cover ring-2 ring-amber-500/50 shadow-md">
+            <div>
+                <h1 class="font-black text-white text-base">تطبيق النور</h1>
+                <p class="text-xs text-amber-400">قرآن، أنبياء، وأذكار</p>
+            </div>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+            <i class="fa-solid fa-kaaba"></i>
+        </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <div class="grid grid-cols-3 gap-2 mb-4">
+        <button onclick="switchTab('quran')" id="btn-quran" class="py-2.5 rounded-xl text-xs font-bold gold-btn shadow-md transition">القرآن الكريم</button>
+        <button onclick="switchTab('prophets')" id="btn-prophets" class="py-2.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700 transition hover:bg-slate-700">قصص الأنبياء</button>
+        <button onclick="switchTab('azkar')" id="btn-azkar" class="py-2.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700 transition hover:bg-slate-700">الأذكار</button>
+    </div>
+
+    <!-- Content Area -->
+    <main class="flex-1 flex flex-col">
+        
+        <!-- Quran Section -->
+        <div id="tab-quran" class="glass-panel p-5 rounded-3xl space-y-4 flex-1">
+            <h2 class="text-amber-400 font-bold text-sm border-b border-amber-500/20 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-book-quran"></i> آيات مختارة للتبرك
+            </h2>
+            <div class="space-y-3 text-center">
+                <div class="p-3 bg-slate-900/60 rounded-2xl border border-slate-800">
+                    <p class="quran-font text-amber-200 text-lg leading-loose">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                    <p class="quran-font text-white text-md mt-1">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ</p>
+                    <span class="text-[10px] text-amber-500/70 block mt-2">سورة البقرة - آية الكرسي</span>
+                </div>
+                <div class="p-3 bg-slate-900/60 rounded-2xl border border-slate-800">
+                    <p class="quran-font text-white text-md">رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً ۚ إِنَّكَ أَنْتَ الْوَهَّابُ</p>
+                    <span class="text-[10px] text-amber-500/70 block mt-2">سورة آل عمران - آية 8</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prophets Section -->
+        <div id="tab-prophets" class="glass-panel p-5 rounded-3xl space-y-3 flex-1 hidden overflow-y-auto max-h-[350px]">
+            <h2 class="text-amber-400 font-bold text-sm border-b border-amber-500/20 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-scroll"></i> سير وقصص الأنبياء
+            </h2>
+            <div class="space-y-2 text-right text-xs">
+                <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                    <h3 class="font-bold text-amber-300 text-sm mb-1">قصة سيدنا آدم عليه السلام</h3>
+                    <p class="text-slate-300 leading-relaxed">أبو البشر، خلقه الله بيده وأسجد له ملائكته، وعلمه الأسماء كلها، وكان بدء خلق الإنسانية.</p>
+                </div>
+                <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                    <h3 class="font-bold text-amber-300 text-sm mb-1">قصة سيدنا إبراهيم خليل الله</h3>
+                    <p class="text-slate-300 leading-relaxed">إمام الحنفاء، الذي واجه قومه بالحكمة وحطم الأصنام، وابتلاه الله ببناء الكعبة المشرفة.</p>
+                </div>
+                <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                    <h3 class="font-bold text-amber-300 text-sm mb-1">قصة سيدنا محمد صلى الله عليه وسلم</h3>
+                    <p class="text-slate-300 leading-relaxed">خاتم الأنبياء والمرسلين، أُرسل بالهدى ودين الحق ليخرج الناس من الظلمات إلى النور.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Azkar Section -->
+        <div id="tab-azkar" class="glass-panel p-5 rounded-3xl space-y-3 flex-1 hidden">
+            <h2 class="text-amber-400 font-bold text-sm border-b border-amber-500/20 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-hands-praying"></i> أذكار المسلم اليومية
+            </h2>
+            <div class="space-y-2 text-right text-xs">
+                <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex justify-between items-center">
+                    <div>
+                        <p class="font-bold text-white mb-1">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</p>
+                        <span class="text-[10px] text-amber-400">تُقال 100 مرة ليحط الخطايا</span>
+                    </div>
+                    <button onclick="countZikr(this)" class="bg-amber-500/20 text-amber-400 border border-amber-500/40 px-3 py-1.5 rounded-lg font-bold">0</button>
+                </div>
+                <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 flex justify-between items-center">
+                    <div>
+                        <p class="font-bold text-white mb-1">لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ</p>
+                        <span class="text-[10px] text-amber-400">كنز من كنوز الجنة</span>
+                    </div>
+                    <button onclick="countZikr(this)" class="bg-amber-500/20 text-amber-400 border border-amber-500/40 px-3 py-1.5 rounded-lg font-bold">0</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center text-[11px] text-slate-500 py-2 mt-2">
+        <span>جعل الله هذا التطبيق في ميزان حسناتك 🌙</span>
+    </footer>
+
+    <!-- App Logic -->
+    <script>
+        function switchTab(tab) {
+            ['quran', 'prophets', 'azkar'].forEach(t => {
+                document.getElementById('tab-' + t).classList.add('hidden');
+                document.getElementById('btn-' + t).className = "py-2.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700 transition hover:bg-slate-700";
+            });
+            document.getElementById('tab-' + tab).classList.remove('hidden');
+            document.getElementById('btn-' + tab).className = "py-2.5 rounded-xl text-xs font-bold gold-btn shadow-md transition";
+        }
+
+        function countZikr(btn) {
+            let count = parseInt(btn.innerText) + 1;
+            btn.innerText = count;
+        }
+    </script>
+</body>
+</html>
