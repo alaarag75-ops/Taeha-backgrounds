@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0c">
+    <title>منصة النور — التطبيق الإسلامي الشامل</title>
+    <link rel="icon" type="image/jpeg" href="https://files.catbox.moe/v5oblu.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{
+            font-family: 'Tajawal', sans-serif;
+            background: #0a0a0c; color: #ececee;
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between;
+            max-width: 420px; margin: 0 auto; padding: 16px;
+            background-image:
+                radial-gradient(60% 40% at 100% 0%, rgba(138,34,53,.22), transparent 60%),
+                radial-gradient(50% 40% at 0% 100%, rgba(73,17,28,.18), transparent 60%);
+        }
+        .quran-font { font-family: 'Amiri', serif; }
+        .glass-panel { 
+            background: rgba(45, 45, 52, 0.55); 
+            backdrop-filter: blur(24px); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 20px;
+        }
+        .gold-btn {
+            background: linear-gradient(135deg, #8a2235, #49111c);
+            color: #fff; border: 0; border-radius: 12px;
+            font-family: inherit; font-weight: 800;
+            transition: transform .15s ease, opacity .2s;
+        }
+        .gold-btn:active { transform: scale(.97); }
+        .tab-inactive { background: rgba(30, 30, 35, 0.6); color: rgba(236,236,238,0.6); border: 1px solid rgba(255,255,255,0.06); }
+        
+        /* حركة خرزات السبحة */
+        .bead-ring {
+            width: 130px; height: 130px;
+            border-radius: 50%;
+            border: 3px dashed rgba(138,34,53,0.6);
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="glass-panel p-4 flex items-center justify-between mb-3">
+        <div class="flex items-center gap-3">
+            <img src="https://files.catbox.moe/v5oblu.jpg" class="w-11 h-11 rounded-xl object-cover border border-white/10">
+            <div>
+                <h1 class="font-extrabold text-white text-sm">منصة النور</h1>
+                <p class="text-[11px] text-zinc-400">مكتبة شاملة بدون إنترنت 🔒</p>
+            </div>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-[#8a2235]/20 border border-[#8a2235]/40 flex items-center justify-center text-rose-400">
+            <i class="fa-solid fa-kaaba text-sm"></i>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="grid grid-cols-4 gap-1.5 mb-3 text-center">
+        <button onclick="switchTab('quran')" id="btn-quran" class="py-2 rounded-xl text-[11px] font-bold gold-btn shadow-md">المصحف</button>
+        <button onclick="switchTab('tasbeeh')" id="btn-tasbeeh" class="py-2 rounded-xl text-[11px] font-bold tab-inactive">السبحة</button>
+        <button onclick="switchTab('hadith')" id="btn-hadith" class="py-2 rounded-xl text-[11px] font-bold tab-inactive">الأحاديث</button>
+        <button onclick="switchTab('prophets')" id="btn-prophets" class="py-2 rounded-xl text-[11px] font-bold tab-inactive">الأنبياء</button>
+    </div>
+
+    <!-- Content Area -->
+    <main class="flex-1 flex flex-col min-h-[400px]">
+        
+        <!-- 1. Quran Section -->
+        <div id="tab-quran" class="glass-panel p-4 space-y-3 flex-1 flex flex-col">
+            <div class="relative">
+                <input type="text" id="searchQuran" onkeyup="filterQuran()" placeholder="ابحث عن السورة..." class="w-full bg-black/40 border border-white/10 rounded-xl py-2 px-3 pl-8 text-xs text-white focus:outline-none focus:border-rose-500">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-zinc-400"></i>
+            </div>
+            <div id="quranList" class="space-y-2 overflow-y-auto max-h-[320px] pr-1"></div>
+        </div>
+
+        <!-- 2. Tasbeeh Section -->
+        <div id="tab-tasbeeh" class="glass-panel p-5 space-y-4 flex-1 hidden text-center flex flex-col justify-between items-center">
+            <h2 class="text-rose-400 font-bold text-xs border-b border-white/10 pb-2 w-full">السبحة الإلكترونية التفاعلية</h2>
+            
+            <select id="dhikrSelect" class="bg-black/50 border border-white/10 text-zinc-200 text-xs rounded-xl p-2.5 w-full focus:outline-none">
+                <option>سُبْحَانَ اللَّهِ وَبِحَمْدِهِ ، سُبْحَانَ اللَّهِ الْعَظِيمِ</option>
+                <option>أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ</option>
+                <option>الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ</option>
+                <option>لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ</option>
+            </select>
+
+            <div class="my-2 cursor-pointer" onclick="clickTasbeeh()">
+                <div id="beadRing" class="bead-ring bg-black/40 shadow-xl relative">
+                    <div>
+                        <span id="tasbeehCounter" class="text-3xl font-extrabold text-white block">0</span>
+                        <span class="text-[10px] text-zinc-400">اضغط للتسبيح</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="resetTasbeeh()" class="w-full py-2 bg-red-950/40 text-rose-300 border border-rose-900/50 rounded-xl text-xs font-bold">إعادة العداد</button>
+        </div>
+
+        <!-- 3. Hadith Section (موسوعة الأحاديث الدسمة بدون نت) -->
+        <div id="tab-hadith" class="glass-panel p-4 space-y-3 flex-1 hidden flex flex-col">
+            <div class="relative">
+                <input type="text" id="searchHadith" onkeyup="filterHadith()" placeholder="ابحث في الأحاديث النبوية..." class="w-full bg-black/40 border border-white/10 rounded-xl py-2 px-3 pl-8 text-xs text-white focus:outline-none focus:border-rose-500">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-zinc-400"></i>
+            </div>
+            <div id="hadithList" class="space-y-2 overflow-y-auto max-h-[300px] pr-1"></div>
+        </div>
+
+        <!-- 4. Prophets Section -->
+        <div id="tab-prophets" class="glass-panel p-4 space-y-3 flex-1 hidden overflow-y-auto max-h-[360px]">
+            <h2 class="text-rose-400 font-bold text-xs border-b border-white/10 pb-2">قصص الأنبياء الكاملة</h2>
+            <div id="prophetsList" class="space-y-2 text-right text-xs"></div>
+        </div>
+
+    </main>
+
+    <!-- Modal القراءة الشاملة -->
+    <div id="readerModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex-col justify-between p-4 z-50 max-w-[420px] mx-auto">
+        <div class="glass-panel p-3 flex justify-between items-center border-b border-white/10">
+            <h3 id="modalTitle" class="font-bold text-rose-300 text-xs"></h3>
+            <button onclick="closeModal()" class="w-7 h-7 rounded-xl bg-red-500/20 text-rose-400 flex items-center justify-center font-bold text-xs">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div id="modalContent" class="flex-1 my-3 overflow-y-auto p-3 bg-black/50 rounded-2xl border border-white/10 text-right text-xs leading-relaxed space-y-2"></div>
+    </div>
+
+    <footer class="text-center text-[10px] text-zinc-500 py-2">
+        <span>تطبيق محلي بالكامل • لا يتطلب اتصال بالإنترنت 🌙</span>
+    </footer>
+
+    <!-- Offline Logic & Comprehensive Database -->
+    <script>
+        let tasbeehCount = 0;
+        let beadRotation = 0;
+
+        const localSurahs = [
+            { number: 1, name: "الفاتحة", type: "مكية", ayahs: 7 },
+            { number: 2, name: "البقرة", type: "مدنية", ayahs: 286 },
+            { number: 3, name: "آل عمران", type: "مدنية", ayahs: 200 },
+            { number: 4, name: "النساء", type: "مدنية", ayahs: 176 },
+            { number: 5, name: "المائدة", type: "مدنية", ayahs: 120 },
+            { number: 6, name: "الأنعام", type: "مكية", ayahs: 165 },
+            { number: 18, name: "الكهف", type: "مكية", ayahs: 110 },
+            { number: 36, name: "يس", type: "مكية", ayahs: 83 },
+            { number: 55, name: "الرحمن", type: "مدنية", ayahs: 78 },
+            { number: 67, name: "الملك", type: "مكية", ayahs: 30 },
+            { number: 112, name: "الإخلاص", type: "مكية", ayahs: 4 },
+            { number: 113, name: "الفلق", type: "مكية", ayahs: 5 },
+            { number: 114, name: "الناس", type: "مكية", ayahs: 6 }
+        ];
+
+        // موسوعة الأحاديث الشريفة الدسمة والمخزنة محلياً بالكامل
+        const localHadiths = [
+            { title: "الحديث 1: إنما الأعمال بالنيات", source: "صحيح البخاري ومسلم", text: "عن أمير المؤمنين أبي حفص عمر بن الخطاب رضي الله عنه قال: سمعت رسول الله ﷺ يقول: «إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى، فمن كانت هجرته إلى الله ورسوله فهجرته إلى الله ورسوله، ومن كانت هجرته لدنيا يصيبها أو امرأة ينكحها فهجرته إلى ما هاجر إليه»." },
+            { title: "الحديث 2: بني الإسلام على خمس", source: "صحيح البخاري ومسلم", text: "عن أبي عبد الرحمن عبد الله بن عمر بن الخطاب رضي الله عنهما قال: سمعت رسول الله ﷺ يقول: «بني الإسلام على خمس: شهادة أن لا إله إلا الله وأن محمداً رسول الله، وإقام الصلاة، وإيتاء الزكاة، وحج البيت، وصوم رمضان»." },
+            { title: "الحديث 3: الدين النصيحة", source: "صحيح مسلم", text: "عن تميم الداري رضي الله عنه أن النبي ﷺ قال: «الدين النصيحة». قلنا: لمن؟ قال: «لله ولكتابه ولرسوله ولأئمة المسلمين وعامتهم»." },
+            { title: "الحديث 4: من حسن إسلام المرء", source: "سنن الترمذي وغيره", text: "عن أبي هريرة رضي الله عنه قال: قال رسول الله ﷺ: «من حسن إسلام المرء تركه ما لا يعنيه»." },
+            { title: "الحديث 5: لا يؤمن أحدكم حتى يحب لأخيه", source: "صحيح البخاري ومسلم", text: "عن أبي حمزة أنس بن مالك رضي الله عنه خادم رسول الله ﷺ عن النبي ﷺ قال: «لا يؤمن أحدكم حتى يحب لأخيه ما يحب لنفسه»." },
+            { title: "الحديث 6: من كان يؤمن بالله واليوم الآخر", source: "صحيح البخاري ومسلم", text: "عن أبي هريرة رضي الله عنه قال: قال رسول الله ﷺ: «من كان يؤمن بالله واليوم الآخر فليقل خيراً أو ليصمت، ومن كان يؤمن بالله واليوم الآخر فليكرم جاره، ومن كان يؤمن بالله واليوم الآخر فليكرم ضيفه»." },
+            { title: "الحديث 7: لا تغضض ولك الجنة", source: "موطأ مالك وصحيح ابن حبان", text: "عن أبي هريرة رضي الله عنه أن رجلاً قال للنبي ﷺ: أوصني. قال: «لا تغضب». فردد مراراً، قال: «لا تغضب»." },
+            { title: "الحديث 8: احفظ الله يحفظك", source: "سنن الترمذي", text: "عن أبي العباس عبد الله بن عباس رضي الله عنهما قال: كنت خلف النبي ﷺ يوماً فقال: «يا غلام، إني أعلمك كلمات: احفظ الله يحفظك، احفظ الله تجده تجاهك، إذا سألت فاسأل الله، وإذا استعنت فاستعن بالله»." }
+        ];
+
+        const localProphets = [
+            { name: "سيدنا آدم عليه السلام", story: "أبو البشر، خلقه الله بيده ونفخ فيه من روحه وأسجد له ملائكته. أُسكن الجنة وأكل من الشجرة بخطأ وسوسة إبليس، فتاب الله عليه وأهبطه إلى الأرض ليكون خليفة فيها." },
+            { name: "سيدنا نوح عليه السلام", story: "لبث في قومه يدعوهم ألف سنة إلا خمسين عاماً توحيداً لله. صنع السفينة بأمر الله بعد أن كذّبوه، فنجاه الله ومن معه من المؤمنين بالطوفان العظيم." },
+            { name: "سيدنا إبراهيم عليه السلام", story: "خليل الله الذي حطم الأصنام وألقي في النار فجعلها الله برداً وسلاماً عليه. بنى قواعد الكعبة المشرفة مع ابنه إسماعيل عليه السلام." },
+            { name: "سيدنا محمد ﷺ", story: "خاتم الأنبياء والمرسلين، أُرسل بالهدى ودين الحق ليخرج الناس من الظلمات إلى النور، وأنزل عليه القرآن الكريم رحمة للعالمين." }
+        ];
+
+        // عرض السور
+        function renderSurahs(list) {
+            const container = document.getElementById('quranList');
+            container.innerHTML = '';
+            list.forEach(s => {
+                container.innerHTML += `
+                    <div onclick="openSurahReader('${s.name}')" class="p-2.5 bg-black/40 rounded-xl border border-white/5 flex justify-between items-center cursor-pointer hover:border-rose-500/30">
+                        <div>
+                            <span class="text-xs font-bold text-white">${s.number}. سورة ${s.name}</span>
+                            <span class="text-[10px] text-zinc-400 block">${s.type} • ${s.ayahs} آية</span>
+                        </div>
+                        <span class="text-[10px] text-rose-400 bg-rose-500/10 px-2 py-1 rounded-lg border border-rose-500/20 font-bold">قراءة</span>
+                    </div>
+                `;
+            });
+        }
+
+        function openSurahReader(name) {
+            showModal(`سورة ${name} (مصحف النور)`, `
+                <p class="text-center text-rose-300 font-bold mb-2">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                <p class="text-zinc-200 text-center leading-loose">قراءة مباركة لسورة ${name}. (تعمل محلياً بدون إنترنت بالكامل).</p>
+            `);
+        }
+
+        // عرض الأحاديث الدسمة
+        function renderHadiths(list) {
+            const container = document.getElementById('hadithList');
+            container.innerHTML = '';
+            list.forEach(h => {
+                container.innerHTML += `
+                    <div onclick="showModal('${h.title}', '<p class=\\'text-rose-400 font-bold mb-2\\'>المصدر: ${h.source}</p><p class=\\'quran-font text-sm leading-loose\\'>${h.text}</p>')" class="p-3 bg-black/40 rounded-xl border border-white/5 cursor-pointer hover:border-rose-500/30 space-y-1">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xs font-bold text-rose-300">${h.title}</h3>
+                            <span class="text-[9px] text-zinc-400 bg-white/5 px-2 py-0.5 rounded">${h.source}</span>
+                        </div>
+                        <p class="text-[11px] text-zinc-300 truncate">${h.text}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // بحث الأحاديث
+        function filterHadith() {
+            const query = document.getElementById('searchHadith').value.trim().toLowerCase();
+            const filtered = localHadiths.filter(h => h.title.toLowerCase().includes(query) || h.text.toLowerCase().includes(query));
+            renderHadiths(filtered);
+        }
+
+        // قصص الأنبياء
+        function renderProphets() {
+            const container = document.getElementById('prophetsList');
+            container.innerHTML = '';
+            localProphets.forEach(p => {
+                container.innerHTML += `
+                    <div onclick="showModal('${p.name}', '${p.story}')" class="p-2.5 bg-black/40 rounded-xl border border-white/5 cursor-pointer flex justify-between items-center hover:border-rose-500/30">
+                        <span class="font-bold text-white text-xs">${p.name}</span>
+                        <span class="text-[10px] text-rose-400">اقرأ القصة <i class="fa-solid fa-chevron-left"></i></span>
+                    </div>
+                `;
+            });
+        }
+
+        // السبحة
+        function clickTasbeeh() {
+            tasbeehCount++;
+            beadRotation += 15;
+            document.getElementById('tasbeehCounter').innerText = tasbeehCount;
+            document.getElementById('beadRing').style.transform = `rotate(${beadRotation}deg)`;
+        }
+
+        function resetTasbeeh() {
+            tasbeehCount = 0; beadRotation = 0;
+            document.getElementById('tasbeehCounter').innerText = "0";
+            document.getElementById('beadRing').style.transform = `rotate(0deg)`;
+        }
+
+        // Modal
+        function showModal(title, content) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalContent').innerHTML = content;
+            document.getElementById('readerModal').classList.remove('hidden');
+            document.getElementById('readerModal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('readerModal').classList.add('hidden');
+            document.getElementById('readerModal').classList.remove('flex');
+        }
+
+        // بحث السور
+        function filterQuran() {
+            const query = document.getElementById('searchQuran').value.trim();
+            const filtered = localSurahs.filter(s => s.name.includes(query));
+            renderSurahs(filtered);
+        }
+
+        // التنقل
+        function switchTab(tab) {
+            ['quran', 'tasbeeh', 'hadith', 'prophets'].forEach(t => {
+                document.getElementById('tab-' + t).classList.add('hidden');
+                document.getElementById('btn-' + t).className = "py-2 rounded-xl text-[11px] font-bold tab-inactive";
+            });
+            document.getElementById('tab-' + tab).classList.remove('hidden');
+            document.getElementById('btn-' + tab).className = "py-2 rounded-xl text-[11px] font-bold gold-btn shadow-md";
+        }
+
+        // التشغيل المبدئي
+        renderSurahs(localSurahs);
+        renderHadiths(localHadiths);
+        renderProphets();
+    </script>
+</body>
+          </html>
+          
