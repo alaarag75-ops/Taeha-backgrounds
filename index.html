@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0b132b">
-    <title>منصة النور — المكتبة الإسلامية الشاملة</title>
+    <title>منصة النور والإيمان — المكتبة الإسلامية الشاملة</title>
     
-    <!-- أيقونة مدمجة كود داخلي (لا تحتاج أي ملفات خارجية) -->
+    <!-- أيقونة مدمجة كود داخلي -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230b132b%22/><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22none%22 stroke=%22%23fbbf24%22 stroke-width=%224%22/><text x=%2250%22 y=%2260%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23fbbf24%22 font-family=%22serif%22>ن</text></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -55,7 +55,6 @@
             border: 1px solid rgba(255, 255, 255, 0.08); 
         }
 
-        /* تصميم السبحة الواقعية */
         .real-tasbeeh {
             width: 170px;
             height: 170px;
@@ -84,34 +83,77 @@
     <!-- Header -->
     <header class="royal-card p-4 flex items-center justify-between mb-3">
         <div class="flex items-center gap-3">
-            <!-- أيقونة مدمجة تعبر عن النور والإيمان -->
             <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg ring-2 ring-amber-400/40">
                 نور
             </div>
             <div>
                 <h1 class="font-black text-white text-base">منصة النور والإيمان</h1>
-                <p class="text-[11px] text-amber-400 font-medium">المصحف، الأحاديث، والسبحة</p>
+                <p class="text-[11px] text-amber-400 font-medium">المصحف، الصلاة، والأذكار</p>
             </div>
         </div>
-        <div class="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-            <i class="fa-solid fa-kaaba text-base"></i>
-        </div>
+        <button onclick="switchTab('prayertime')" class="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 hover:bg-amber-500/20 transition">
+            <i class="fa-solid fa-clock text-base"></i>
+        </button>
     </header>
 
     <!-- الأقسام الرئيسية -->
-    <div class="grid grid-cols-5 gap-1 mb-3 text-center">
-        <button onclick="switchTab('quran')" id="btn-quran" class="py-2 rounded-xl text-[10px] font-bold royal-btn">المصحف</button>
-        <button onclick="switchTab('audio')" id="btn-audio" class="py-2 rounded-xl text-[10px] font-bold tab-inactive">الاستماع</button>
-        <button onclick="switchTab('tasbeeh')" id="btn-tasbeeh" class="py-2 rounded-xl text-[10px] font-bold tab-inactive">السبحة</button>
-        <button onclick="switchTab('hadith')" id="btn-hadith" class="py-2 rounded-xl text-[10px] font-bold tab-inactive">الأحاديث</button>
-        <button onclick="switchTab('prophets')" id="btn-prophets" class="py-2 rounded-xl text-[10px] font-bold tab-inactive">الأنبياء</button>
+    <div class="grid grid-cols-6 gap-1 mb-3 text-center">
+        <button onclick="switchTab('prayertime')" id="btn-prayertime" class="py-2 rounded-xl text-[9px] font-bold royal-btn">المواقيت</button>
+        <button onclick="switchTab('quran')" id="btn-quran" class="py-2 rounded-xl text-[9px] font-bold tab-inactive">المصحف</button>
+        <button onclick="switchTab('audio')" id="btn-audio" class="py-2 rounded-xl text-[9px] font-bold tab-inactive">الاستماع</button>
+        <button onclick="switchTab('tasbeeh')" id="btn-tasbeeh" class="py-2 rounded-xl text-[9px] font-bold tab-inactive">السبحة</button>
+        <button onclick="switchTab('hadith')" id="btn-hadith" class="py-2 rounded-xl text-[9px] font-bold tab-inactive">الأحاديث</button>
+        <button onclick="switchTab('prophets')" id="btn-prophets" class="py-2 rounded-xl text-[9px] font-bold tab-inactive">الأنبياء</button>
     </div>
 
     <!-- المحتوى -->
     <main class="flex-1 flex flex-col min-h-[410px]">
         
+        <!-- 0. مواقيت الصلاة والإشعارات -->
+        <div id="tab-prayertime" class="royal-card p-4 space-y-3 flex-1 flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-center border-b border-amber-500/20 pb-2 mb-3">
+                    <h2 class="text-amber-400 font-bold text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-mosque"></i> مواقيت الصلاة اليوم
+                    </h2>
+                    <span id="locationName" class="text-[10px] text-slate-400">القاهرة</span>
+                </div>
+
+                <!-- زر تفعيل الإشعارات -->
+                <button id="notifyBtn" onclick="requestNotificationPermission()" class="w-full mb-3 py-2.5 px-3 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-bell"></i> <span id="notifyStatus">تفعيل إشعارات الأذان والتنبيهات</span>
+                </button>
+
+                <!-- جدول مواقيت الصلاة -->
+                <div id="prayerTimesGrid" class="grid grid-cols-1 gap-2 text-xs">
+                    <div class="p-2.5 bg-slate-900/60 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <span class="text-slate-300 font-bold"><i class="fa-solid fa-sun text-amber-400 ml-2"></i> الفجر</span>
+                        <span id="fajrTime" class="text-amber-300 font-bold">--:--</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-900/60 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <span class="text-slate-300 font-bold"><i class="fa-solid fa-sun text-amber-500 ml-2"></i> الظهر</span>
+                        <span id="dhuhrTime" class="text-amber-300 font-bold">--:--</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-900/60 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <span class="text-slate-300 font-bold"><i class="fa-solid fa-cloud-sun text-amber-600 ml-2"></i> العصر</span>
+                        <span id="asrTime" class="text-amber-300 font-bold">--:--</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-900/60 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <span class="text-slate-300 font-bold"><i class="fa-solid fa-moon text-indigo-400 ml-2"></i> المغرب</span>
+                        <span id="maghribTime" class="text-amber-300 font-bold">--:--</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-900/60 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <span class="text-slate-300 font-bold"><i class="fa-solid fa-star text-indigo-300 ml-2"></i> العشاء</span>
+                        <span id="ishaTime" class="text-amber-300 font-bold">--:--</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-[10px] text-center text-slate-400 pt-2 border-t border-slate-800">سيتم إرسال إشعار صوتي وتنبيه عند دخول وقت كل صلاة تلقائياً.</p>
+        </div>
+
         <!-- 1. المصحف (114 سورة) -->
-        <div id="tab-quran" class="royal-card p-4 space-y-3 flex-1 flex flex-col">
+        <div id="tab-quran" class="royal-card p-4 space-y-3 flex-1 hidden flex flex-col">
             <div class="relative">
                 <input type="text" id="searchQuran" onkeyup="filterQuran()" placeholder="ابحث عن اسم السورة للقراءة..." class="w-full bg-slate-900/80 border border-amber-500/30 rounded-xl py-2 px-3 pl-8 text-xs text-white focus:outline-none focus:border-amber-500">
                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-amber-400"></i>
@@ -212,15 +254,79 @@
     <script>
         let surahsData = [];
         let tasbeehCount = 0;
+        let prayerTimesToday = {};
+        let notifiedPrayers = {};
 
         const prophetsData = [
             { name: "سيدنا آدم عليه السلام", story: "خلقه الله تعالى بيده من تراب ونفخ فيه من روحه، وأسجد له الملائكة إكراماً له. علمه الله الأسماء كلها وأسكنه وزوجته حواء الجنة. حذرهما الله من الأكل من الشجرة، لكن إبليس وسوس لهما فأكلا منها. فأنزلهما الله إلى الأرض ليعمراها، فتاب آدم واستغفر ربه فتاب عليه وهداه، وكان أول الأنبياء وأبو البشرية." },
-            { name: "سيدنا نوح عليه السلام", story: "أول رسل الله إلى أهل الأرض بعد أن ظهر فيهم الشرك. ظل يدعو قومه تسعمائة وخمسين سنة بالليل والنهار، وسراً وعلانية، فلم يؤمن معه إلا قليل. أمره الله ببناء السفينة العظيمة، وحين جاء أمر الله وفار التنور، أنزل الله طوفاناً هائلاً غرق فيه الكافرون، ونجى الله نوحاً والمؤمنين." },
+            { name: "سيدنا نوح عليه السلام", story: "أول رسل الله إلى أهل الأرض بعد أن ظهر فيهم الشرك. ظل يدعو قومه تسعمائة وخمسين سنة بالليل والنهار، وسراً وعلانية، فلم تؤمن معه إلا قليل. أمره الله ببناء السفينة العظيمة، وحين جاء أمر الله وفار التنور، أنزل الله طوفاناً هائلاً غرق فيه الكافرون، ونجى الله نوحاً والمؤمنين." },
             { name: "سيدنا إبراهيم عليه السلام", story: "خليل الرحمن وإمام الحنفاء. نشأ في قوم يعبدون الكواكب والأصنام، فحطم أصنامهم بحكمته ليثبت لهم عجزها. ألقاه قومه في النار العظيمة، فأمر الله النار: 'كوني برداً وسلاماً على إبراهيم'. هاجر في سبيل الله، وابتلي بذبح ابنه إسماعيل ففداه الله بذبج عظيم، وشارك في بناء الكعبة المشرفة." },
             { name: "سيدنا موسى عليه السلام", story: "كليم الله، ولد في مصر في عهد فرعون الطاغية. ألقت أمه به في التابوت في النهر بحفظ الله ليربى في بيت فرعون نفسه. أرسله الله بآيات معجزات (العصا واليد البيضاء) ليدعو فرعون إلى التوحيد. وعندما لحقهم فرعون وجنوده، شق الله البحر لموسى وبني إسرائيل ونجاهم، وأغرق فرعون وجنوده." },
             { name: "سيدنا عيسى عليه السلام", story: "كلمة الله ورسوله، ولد من غير أب من العذراء البتول مريم عليها السلام بالمعجزة العظيمة. تكلم في المهد صبياً، وآتاه الله الإنجيل وأيده بالمعجزات كإبراء الأكمه والأبرص وإحياء الموتى بإذن الله. وعندما أراد الكفار قتله، رفعه الله إليه وشبه لهم، وسيتبع المسلمون نزوله في آخر الزمان." },
             { name: "سيدنا محمد ﷺ", story: "خاتم الأنبياء والمرسلين وسيد ولد آدم. ولد يتيماً في مكة وشُهد له بالأمانة والصدق. نزل عليه الوحي في غار حراء وهو في الأربعين بالقرآن الكريم. دعا إلى التوحيد والعدل والرحمة، وصبر على أذى قريش حتى هاجر إلى المدينة المنورة وأسس الدولة الإسلامية. أرسله الله رحمة للعالمين." }
         ];
+
+        // 1. مواقيت الصلاة والإشعارات
+        async function fetchPrayerTimes() {
+            try {
+                const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Cairo&country=Egypt&method=5');
+                const data = await res.json();
+                const timings = data.data.timings;
+                prayerTimesToday = {
+                    'الفجر': timings.Fajr,
+                    'الظهر': timings.Dhuhr,
+                    'العصر': timings.Asr,
+                    'المغرب': timings.Maghrib,
+                    'العشاء': timings.Isha
+                };
+
+                document.getElementById('fajrTime').innerText = timings.Fajr;
+                document.getElementById('dhuhrTime').innerText = timings.Dhuhr;
+                document.getElementById('asrTime').innerText = timings.Asr;
+                document.getElementById('maghribTime').innerText = timings.Maghrib;
+                document.getElementById('ishaTime').innerText = timings.Isha;
+
+                // بدء فحص الوقت للتنبيه
+                setInterval(checkPrayerTimes, 30000);
+            } catch (err) {
+                console.log('تعذر جلب المواقيت تلقائياً.');
+            }
+        }
+
+        function requestNotificationPermission() {
+            if (!("Notification" in window)) {
+                alert("المتصفح لا يدعم الإشعارات.");
+                return;
+            }
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    document.getElementById('notifyStatus').innerText = "تم تفعيل الإشعارات بنجاح ✓";
+                    document.getElementById('notifyBtn').className = "w-full mb-3 py-2.5 px-3 bg-emerald-600/30 text-emerald-200 border border-emerald-500/50 rounded-xl text-xs font-bold cursor-default flex items-center justify-center gap-2";
+                    new Notification("منصة النور للإيمان", { body: "تم تفعيل إشعارات الأذان بنجاح!", icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='60' font-size='50'>🕌</text></svg>" });
+                }
+            });
+        }
+
+        function checkPrayerTimes() {
+            if (Notification.permission !== "granted") return;
+
+            const now = new Date();
+            const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+            for (const [pName, pTime] of Object.entries(prayerTimesToday)) {
+                if (pTime === currentTime && !notifiedPrayers[pName]) {
+                    notifiedPrayers[pName] = true;
+                    showPrayerNotification(pName);
+                }
+            }
+        }
+
+        function showPrayerNotification(prayerName) {
+            new Notification(`حان الآن موعد صلاة ${prayerName}`, {
+                body: `الله أكبر الله أكبر.. حان وقت صلاة ${prayerName} حسب توقيت مدينتك.`,
+                icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='60' font-size='50'>🕌</text></svg>"
+            });
+        }
 
         async function fetchSurahs() {
             try {
@@ -335,7 +441,7 @@
                     container.innerHTML += `
                         <div onclick="showModal('${h.hadith_name || 'حديث شريف'}', '<p class=\\'quran-font text-slate-100 text-xs leading-loose p-1\\'>${h.hadith}</p>')" class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 cursor-pointer hover:border-amber-500/40 transition space-y-1">
                             <h3 class="text-xs font-bold text-amber-300">الحديث ${idx + 1}: ${h.hadith_name || 'حديث شريف'}</h3>
-                                          <p class="text-[10px] text-slate-400 truncate">${h.hadith}</p>
+                            <p class="text-[10px] text-slate-400 truncate">${h.hadith}</p>
                         </div>
                     `;
                 });
@@ -377,14 +483,15 @@
         }
 
         function switchTab(tab) {
-            ['quran', 'audio', 'tasbeeh', 'hadith', 'prophets'].forEach(t => {
+            ['prayertime', 'quran', 'audio', 'tasbeeh', 'hadith', 'prophets'].forEach(t => {
                 document.getElementById('tab-' + t).classList.add('hidden');
-                document.getElementById('btn-' + t).className = "py-2 rounded-xl text-[10px] font-bold tab-inactive";
+                document.getElementById('btn-' + t).className = "py-2 rounded-xl text-[9px] font-bold tab-inactive";
             });
             document.getElementById('tab-' + tab).classList.remove('hidden');
-            document.getElementById('btn-' + tab).className = "py-2 rounded-xl text-[10px] font-bold royal-btn";
+            document.getElementById('btn-' + tab).className = "py-2 rounded-xl text-[9px] font-bold royal-btn";
         }
 
+        fetchPrayerTimes();
         fetchSurahs();
         fetchHadiths();
         renderProphets();
